@@ -4,19 +4,19 @@ height: 100%;
 width: 100%;
 margin: 0;
 padding: 0;
-background: #800000 !important;
+background: #ffffff !important;
 font-family: 'Vidaloka', serif;
 
 }
 
 .heading{
-color: white;
+color: rgb(0, 0, 0);
 text-align: center;
 font-family: 'Vidaloka', serif;
 }
 
 .description{
-color: white;
+color: rgb(0, 0, 0);
 text-align: center;
 font-size: 1.5vw;
 }
@@ -35,7 +35,7 @@ padding: 10px;
 }
 
 .search_input{
-color: white;
+color: rgb(0, 0, 0);
 border: 0;
 outline: 0;
 background: none;
@@ -67,3 +67,5 @@ align-items: center;
 border-radius: 50%;
 color:white;
 }
+
+
