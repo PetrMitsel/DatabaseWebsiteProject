@@ -2,13 +2,57 @@
 
 {%block content%}
 
-    <h1 class="heading">Search our Database:</h1>
+    <h1 class="heading">TeacherCloud</h1>
 
-    <div>
-        <p class="description">
-          Welcome to our search database. This database is to be used for teachers to search for student records and grades. The search bar is below.
-        </p>
-    </div>
+    <br>
+    <br>
+
+    <h2>Course Name Here:</h2>
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Assignment name here</th>
+            <th scope="col">Assignment name here</th>
+            <th scope="col">Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>100</td>
+            <td>97</td>
+            <td>Average Here</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>82</td>
+            <td>85</td>
+            <td>Average Here</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>35</td>
+            <td>45</td>
+            <td>Average Here</td>
+          </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" class="btn btn-lg btn-block " id="addstudent" value="Add Student" />
+                </td>
+              </tr>
+        </tfoot>
+      </table>
 
 
 {%endblock content%}

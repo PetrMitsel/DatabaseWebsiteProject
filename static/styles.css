@@ -48,13 +48,13 @@ transition: width 0.4s linear;
 .searchbar:hover > .search_input{
 padding: 0 10px;
 width: 450px;
-caret-color:red;
+caret-color:rgb(0, 0, 0);
 transition: width 0.4s linear;
 }
 
 .searchbar:hover > .search_icon{
 background: white;
-color: #800000;
+color: #000000;
 }
 
 .search_icon{
