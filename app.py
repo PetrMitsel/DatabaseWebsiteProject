@@ -1,8 +1,17 @@
 from flask import Flask
 from flask import render_template
-
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'Sertdert123!'
+app.config['MYSQL_DB'] = 'school_database'
+
+mysql = MySQL(app)
+
+
 
 @app.route("/")
 @app.route("/home")
