@@ -23,6 +23,10 @@ def register():
 def myclasses():
     return render_template('myclasses.html')
 
+@app.route("/addstudent")
+def addstudent():
+    return render_template('addstudent.html')
+
 
 
 if __name__ == "__main__":
