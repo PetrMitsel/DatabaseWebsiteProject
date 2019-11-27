@@ -5,8 +5,8 @@ from flask_login import UserMixin
 db = SQLAlchemy()
 class User(db.Model,UserMixin):
    id = db.Column('teacher_id', db.Integer, primary_key = True)
-   name = db.Column(db.String(100),nullable=True)
-   username = db.Column(db.String(20),unique=True,nullable=False)
+   firstname = db.Column(db.String(100),nullable=True)
+   lastname = db.Column(db.String(20),unique=True,nullable=False)
    email = db.Column(db.String(120),unique=True,nullable=False)
    password = db.Column(db.String(60),nullable=True)
    courses = db.relationship('Course', backref='Coursetaught', lazy=True)
@@ -25,3 +25,7 @@ class Student(db.Model):
     name = db.Column(db.String(100),nullable=True)
     id = db.Column('student_id',db.Integer,primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('Course.id'),nullable=False)
+    homework = db.Column(db.Integer,nullable=True)
+    midterm = db.Column(db.Integer,nullable=True)
+    final = db.Column(db.Integer,nullable=True)
+    average= db.Column(db.Integer,nullable=True)
