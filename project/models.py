@@ -10,9 +10,9 @@ class User(db.Model,UserMixin):
    email = db.Column(db.String(120),unique=True,nullable=False)
    password = db.Column(db.String(60),nullable=True)
    courses = db.relationship('Course', backref='Coursetaught', lazy=True)
-   
+
    def __repr__(self):
-        return f"User('{self.username},{self.email}')"
+        return f"User('{self.username},{self.id}')"
 
 class Course(db.Model):
     id = db.Column('course_id',db.Integer,primary_key=True)
@@ -22,7 +22,8 @@ class Course(db.Model):
 
 
 class Student(db.Model):
-    name = db.Column(db.String(100),nullable=True)
+    first_name = db.Column(db.String(100),nullable=True)
+    last_name = db.Column(db.String(100),nullable=True)
     id = db.Column('student_id',db.Integer,primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('Course.id'),nullable=False)
     homework = db.Column(db.Integer,nullable=True)

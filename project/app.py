@@ -1,7 +1,7 @@
 from flask import Flask,request,render_template,url_for,redirect,flash
 from flask_sqlalchemy import SQLAlchemy
-from models import User,db
-from forms import RegistrationForm
+from models import User,db,Course,Student
+from forms import RegistrationForm,AddClassForm,AddStudentForm
 from flask_login import login_user,current_user,logout_user,login_required,LoginManager
 from flask_bcrypt import Bcrypt
 import os
@@ -43,11 +43,23 @@ def register():
 
 @app.route("/myclasses")
 def myclasses():
+    addstudentform = AddStudentForm ();
+    addclassform = AddClassForm ();
+    if(addclassform.validate_on_submit()):
+        addclasses(addclassform.class_name.data)
+    if(addstudentform.validate_on_submit()):
+        addstudents()
+    return render_template('myclasses.html',addclassform=addclassform,addstudentform=addstudentform)
 
-    return render_template('myclasses.html')
 
+def addStudents(Student):
+    return
 
-
+def addclasses(String):
+    user=current_user
+    course = Course(class_name=form.class_name.data,teacher_id=user.id)
+    db.session.add(course)
+    db.session.commit()
 
 if __name__ == "__main__":
     app.run("0.0.0.0", debug=True)
