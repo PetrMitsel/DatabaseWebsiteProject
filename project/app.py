@@ -48,16 +48,20 @@ def myclasses():
     if(addclassform.validate_on_submit()):
         addclasses(addclassform.class_name.data)
     if(addstudentform.validate_on_submit()):
-        addstudents()
+        addstudents(addstudentform.student_class)
     return render_template('myclasses.html',addclassform=addclassform,addstudentform=addstudentform)
 
 
 def addStudents(Student):
-    return
+    student = Student()
+    db.session.add()
+    db.session.commit()
 
-def addclasses(String):
+
+
+def addclasses(s):
     user=current_user
-    course = Course(class_name=form.class_name.data,teacher_id=user.id)
+    course = Course(class_name=s,teacher_id=user.teacher_id)
     db.session.add(course)
     db.session.commit()
 
