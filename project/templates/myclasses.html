@@ -38,12 +38,12 @@
             <td>Average Here</td>
           </tr>
         </tbody>
-       
+
       </table>
 
       <button type="button" class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add a Student</button>
 
-      
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -55,21 +55,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="POST">
+            {{ addstudentform.hidden_tag() }}
           <div class="form-group">
-            <label for="studentFirstName" class="col-form-label">Student's First Name:</label>
+            {{ addstudentform.students_first_name.label (class= "form-control-label") }}
             <input type="text" class="form-control" id="studentFirstName">
           </div>
           <div class="form-group">
-            <label for="studentLastName" class="col-form-label">Student's Last Name:</label>
+            {{ addstudentform.students_last_name.label (class= "form-control-label") }}
             <input type="text" class="form-control" id="studentLastName">
           </div>
-          <div class="form-group">
-                <label for="studentID" class="col-form-label">Student's ID:</label>
-                <input type="number" class="form-control" id="studentID">
-              </div>
+
             <div class="form-group">
-                <label for="selectClass" class="col-form-label">Class:</label>
+                {{ addstudentform.student_class.label (class= "form-control-label") }}
                 <select class="form-control">
                   <option></option>
                   <option>Class A</option>
@@ -101,15 +99,12 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form method="POST">
+                {{ addclassform.hidden_tag() }}
                 <div class="form-group">
-                  <label for="className" class="col-form-label">Class Name:</label>
+                  {{ addclassform.class_name.label (class= "form-control-label") }}
                   <input type="text" class="form-control" id="className">
                 </div>
-                <div class="form-group">
-                      <label for="classID" class="col-form-label">Class ID:</label>
-                      <input type="number" class="form-control" id="classID">
-                    </div>
               </form>
             </div>
             <div class="modal-footer">
