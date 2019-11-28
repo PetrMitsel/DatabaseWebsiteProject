@@ -1,35 +1,33 @@
 from flask import Flask,request,render_template,url_for,redirect,flash
 from flask_sqlalchemy import SQLAlchemy
-from models import User,db,Course,Student
-from forms import RegistrationForm,AddClassForm,AddStudentForm
+from project.models import User,Course,Student
+from project import db,app,bcrypt
+from project.forms import RegistrationForm,AddClassForm,AddStudentForm,LoginForm
 from flask_login import login_user,current_user,logout_user,login_required,LoginManager
-from flask_bcrypt import Bcrypt
 import os
 import sys
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
-db.init_app(app)
 
-with app.app_context():
-    db.create_all()
-
-bcrypt= Bcrypt(app)
-login_manager=LoginManager(app)
-login_manager.login_view = 'login'
-login_manager.login_message_category= 'info'
-SECRET_KEY = os.urandom(32)
-app.config['SECRET_KEY'] = SECRET_KEY
 
 @app.route("/")
 @app.route("/home")
 def home():
     return render_template('home.html')
 
-@app.route("/login")
+@app.route("/login",methods=['GET','POST'])
 def login():
-
-    return render_template('login.html')
+    form= LoginForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password,form.password.data):
+            login_user(user,remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('Login Unsuccesful. Please check email and Password','danger')
+    return render_template('login.html',form=form)
 
 @app.route("/register", methods=['GET','POST'])
 def register():
