@@ -14,16 +14,27 @@
                 <li class="nav-item active my-2 mx-1">
                   <a class="nav-link" href="{{ url_for('home') }}">Home </a>
                 </li>
+                {% if current_user.is_authenticated %}
+               
+                {% endif %}
+                {% if current_user.is_authenticated %}
                 <li class="nav-item active my-2 mx-1">
-                  <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    <a class="nav-link" href="{{ url_for('myclasses') }}">My Classes </a>
                 </li>
                 <li class="nav-item active my-2 mx-1">
-                  <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>
+                {% else %}
                 <li class="nav-item active my-2 mx-1">
-                  <a class="nav-link" href="{{ url_for('myclasses') }}">My Classes </a>
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                  </li>
+                  <li class="nav-item active my-2 mx-1">
+                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
                 </li>
+                {% endif %}
               </ul>
+
+              
               <!-- Search Bar
               <div class="container h-100">
                 <div class="d-flex justify-content-end h-100">
