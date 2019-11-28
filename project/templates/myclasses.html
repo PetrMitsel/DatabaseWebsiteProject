@@ -69,7 +69,6 @@
             <div class="form-group">
                 {{ addstudentform.student_class.label (class= "form-control-label") }}
                 <select class="form-control">
-                  <option></option>
                   <option>Class A</option>
                   <option>Class B</option>
                 </select>
@@ -99,17 +98,17 @@
               </button>
             </div>
             <div class="modal-body">
-              <form method="POST">
+              <form method="POST" action="{{ url_for ('myclasses') }}">
                 {{ addclassform.hidden_tag() }}
                 <div class="form-group">
                   {{ addclassform.class_name.label (class= "form-control-label") }}
-                  <input type="text" class="form-control" id="className">
+                  {{ addclassform.class_name(class= "form-control form-control-lg")}}
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Submit</button>
+              {{ addclassform.submit (class= "btn btn-outline-info") }}
             </div>
           </div>
         </div>

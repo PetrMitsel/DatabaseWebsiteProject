@@ -49,6 +49,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@login_required
 @app.route("/myclasses")
 def myclasses():
     addstudentform = AddStudentForm ();

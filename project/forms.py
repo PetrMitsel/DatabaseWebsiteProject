@@ -5,7 +5,7 @@ from wtforms.validators import InputRequired,EqualTo,Length,Email
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(),Email()])
     password=PasswordField('Password',validators=[ InputRequired(),Length(min=4)])
-    remember= BooleanField('Remember me')
+    remember= BooleanField('Remember Me')
     submit= SubmitField('Sign in')
 
 class RegistrationForm(FlaskForm):
@@ -20,9 +20,8 @@ class AddStudentForm(FlaskForm):
     students_first_name = StringField('First Name', validators=[InputRequired()])
     students_last_name =StringField('Last Name', validators=[InputRequired()])
     student_class= StringField('Class',validators=[InputRequired()])
-    submit= SubmitField('Add student')
+    submit= SubmitField('Add Student')
 
 class AddClassForm(FlaskForm):
-    class_name = StringField('class name', validators=[InputRequired()])
-    class_ID = StringField('class ID', validators=[InputRequired()])
-    submit= SubmitField('Add class')
+    class_name = StringField('Course Name', validators=[InputRequired()])
+    submit= SubmitField('Add Class')
