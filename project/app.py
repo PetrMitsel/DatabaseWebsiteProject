@@ -5,10 +5,15 @@ from forms import RegistrationForm,AddClassForm,AddStudentForm
 from flask_login import login_user,current_user,logout_user,login_required,LoginManager
 from flask_bcrypt import Bcrypt
 import os
+import sys
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
 db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
 bcrypt= Bcrypt(app)
 login_manager=LoginManager(app)
 login_manager.login_view = 'login'
@@ -37,6 +42,7 @@ def register():
        db.session.add(new_user)
        db.session.commit()
        flash('Account succesfully created.','success')
+       print('Hello world!', file=sys.stderr)
        return redirect(url_for('login'))
     return render_template('register.html',form=form)
 
@@ -48,7 +54,7 @@ def myclasses():
     if(addclassform.validate_on_submit()):
         addclasses(addclassform.class_name.data)
     if(addstudentform.validate_on_submit()):
-        addstudents(addstudentform.student_class)
+        addStudents(addstudentform.student_class.data)
     return render_template('myclasses.html',addclassform=addclassform,addstudentform=addstudentform)
 
 

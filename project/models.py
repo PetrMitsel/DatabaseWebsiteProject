@@ -7,7 +7,7 @@ class User(db.Model,UserMixin):
    __tablename__ = 'users'
    id = db.Column(db.Integer, primary_key = True)
    firstname = db.Column(db.String(100),nullable=True)
-   lastname = db.Column(db.String(20),unique=True,nullable=False)
+   lastname = db.Column(db.String(20),nullable=False)
    email = db.Column(db.String(120),unique=True,nullable=False)
    password = db.Column(db.String(60),nullable=True)
    courses = db.relationship('Course', backref='Teacher', lazy=True)
@@ -19,7 +19,7 @@ class Course(db.Model):
     id = db.Column('course_id',db.Integer,primary_key=True)
     name= db.Column(db.String(100),unique=True,nullable=False)
     students = db.relationship('Student', backref='Student', lazy=True)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
 
 
 class Student(db.Model):
