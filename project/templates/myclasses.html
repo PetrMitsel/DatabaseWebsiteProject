@@ -1,51 +1,44 @@
 {%extends "index.html"%}
 {%block content%}
-<h2>Course Name Here:</h2>
-    <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Assignment name here</th>
-            <th scope="col">Assignment name here</th>
-            <th scope="col">Average</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>100</td>
-            <td>97</td>
-            <td>Average Here</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>82</td>
-            <td>85</td>
-            <td>Average Here</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>35</td>
-            <td>45</td>
-            <td>Average Here</td>
-          </tr>
-        </tbody>
 
-      </table>
+{% for course in courses %}
+<h2>{{course.name}}</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Grade1</th>
+      <th scope="col">Grade2</th>
+      <th scope="col">Grade3</th>
+      <th scope="col">Average</th>
+    </tr>
+  </thead>
+  <tbody>
 
-      <button type="button" class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add a Student</button>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>100</td>
+      <td>97</td>
+      <td>97</td>
+      <td>Average Here</td>
+    </tr>
+
+  </tbody>
+
+</table>
+{% endfor %}
+
+<button type="button" class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#exampleModal"
+  data-whatever="@mdo">Add a Student</button>
 
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -55,29 +48,32 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST">
-            {{ addstudentform.hidden_tag() }}
+        <form method="POST" action="{{ url_for ('myclasses') }}">
+          {{ addstudentform.hidden_tag() }}
           <div class="form-group">
             {{ addstudentform.students_first_name.label (class= "form-control-label") }}
-            <input type="text" class="form-control" id="studentFirstName">
+            {{ addstudentform.students_first_name(class= "form-control form-control-lg")}}
           </div>
           <div class="form-group">
             {{ addstudentform.students_last_name.label (class= "form-control-label") }}
-            <input type="text" class="form-control" id="studentLastName">
+            {{ addstudentform.students_last_name(class= "form-control form-control-lg")}}
           </div>
 
-            <div class="form-group">
-                {{ addstudentform.student_class.label (class= "form-control-label") }}
-                <select class="form-control">
-                  <option>Class A</option>
-                  <option>Class B</option>
-                </select>
-            </div>
+          <div class="form-group">
+            {{ addstudentform.student_class.label (class= "form-control-label") }}
+            <!---
+            <select class="form-control">
+              {% for course in courses %}
+              <option>{{course.name}}</option>
+              {% endfor %}
+            </select>
+          -->
+            {{ addstudentform.student_class(class= "form-control form-control-lg")}}
+          </div>
+          <div>
+            {{ addstudentform.submitstudent (class= "btn btn-outline-info") }}
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
@@ -85,62 +81,32 @@
 
 <br>
 <br>
-<button type="button" class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#classModal" data-whatever="@zzz">Add a Class</button>
+<button type="button" class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#classModal"
+  data-whatever="@zzz">Add a Class</button>
 
-
-      <div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form method="POST" action="{{ url_for ('myclasses') }}">
-                {{ addclassform.hidden_tag() }}
-                <div class="form-group">
-                  {{ addclassform.class_name.label (class= "form-control-label") }}
-                  {{ addclassform.class_name(class= "form-control form-control-lg")}}
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              {{ addclassform.submit (class= "btn btn-outline-info") }}
-            </div>
-          </div>
-        </div>
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-
-
-<script>
-    $('#exampleModal').on('shown.bs.modal', function () {
-    $('#myInput').trigger('focus')
-    })
-
-
-    $('#classModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var recipient = button.data('whatever') // Extract info from data-* attributes
-    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this)
-    modal.find('.modal-title').text('New message to ' + recipient)
-    modal.find('.modal-body input').val(recipient)
-    })
-
-
-    $('#exampleModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var recipient = button.data('whatever') // Extract info from data-* attributes
-    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this)
-    modal.find('.modal-title').text('New message to ' + recipient)
-    modal.find('.modal-body input').val(recipient)
-    })
-</script>
-
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for ('myclasses') }}">
+          {{ addclassform.hidden_tag() }}
+          <div class="form-group">
+            {{ addclassform.class_name.label (class= "form-control-label") }}
+            {{ addclassform.class_name(class= "form-control form-control-lg")}}
+          </div>
+          <div>
+            {{ addclassform.submitclass (class= "btn btn-outline-info") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {%endblock content%}

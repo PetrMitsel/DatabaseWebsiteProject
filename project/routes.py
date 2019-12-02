@@ -1,4 +1,4 @@
-from flask import Flask,request,render_template,url_for,redirect,flash
+from flask import Flask,request,render_template,url_for,redirect,flash,session
 from flask_sqlalchemy import SQLAlchemy
 from project.models import User,Course,Student
 from project import db,app,bcrypt
@@ -6,6 +6,7 @@ from project.forms import RegistrationForm,AddClassForm,AddStudentForm,LoginForm
 from flask_login import login_user,current_user,logout_user,login_required,LoginManager
 import os
 import sys
+
 
 
 
@@ -49,28 +50,44 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
+@app.route("/myclasses",methods=['GET','POST'])
 @login_required
-@app.route("/myclasses")
 def myclasses():
-    addstudentform = AddStudentForm ();
-    addclassform = AddClassForm ();
-    if(addclassform.validate_on_submit()):
-        addclasses(addclassform.class_name.data)
-    if(addstudentform.validate_on_submit()):
-        addStudents(addstudentform.student_class.data)
-    return render_template('myclasses.html',addclassform=addclassform,addstudentform=addstudentform)
+    courses= Course.query.filter_by(Teacher=current_user).all()
+    coursenames = []
+    students = []
+    for course in courses:
+        coursenames.append(course.name)
+        students.append(course.students)
+    print(students, file=sys.stderr)      
+    print(coursenames, file=sys.stderr)
+    choices= zip(courses,coursenames)
+    choices= set(choices)
+    print(choices, file=sys.stderr)
+    addstudentform = AddStudentForm (prefix="addstudentform");
+    addstudentform.student_class.choices = choices
+    addclassform = AddClassForm (prefix="addclassform");
+
+    if addstudentform.submitstudent.data and addstudentform.validate_on_submit():
+        student = Student(first_name=addstudentform.students_first_name.data,last_name=addstudentform.students_last_name.data,Course=addstudentform.student_class.data)
+        print(student.first_name, file=sys.stderr)
+        db.session.add(student)
+        db.session.commit()
+        return redirect(url_for('myclasses'))
+    
+    if addclassform.submitclass.data and addclassform.validate_on_submit():
+        addclasses(addclassform.class_name.data,current_user)
+        return redirect(url_for('myclasses'))
+
+    
+    return render_template('myclasses.html',addclassform=addclassform,addstudentform=addstudentform,courses=courses)
 
 
-def addStudents(Student):
-    student = Student()
-    db.session.add()
-    db.session.commit()
 
-
-
-def addclasses(s):
-    user=current_user
-    course = Course(class_name=s,teacher_id=user.teacher_id)
+def addclasses(s,user):
+    
+    course = Course(name=s,Teacher=user)
     db.session.add(course)
     db.session.commit()
 

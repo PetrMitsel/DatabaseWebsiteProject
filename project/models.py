@@ -1,8 +1,7 @@
-from project import login_manager
+from project import login_manager,db
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
-db = SQLAlchemy()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -18,12 +17,12 @@ class User(db.Model,UserMixin):
    courses = db.relationship('Course', backref='Teacher', lazy=True)
 
    def __repr__(self):
-        return f"User('{self.username},{self.id}')"
+        return f"User('{self.id},{self.email}')"
 
 class Course(db.Model):
     id = db.Column('course_id',db.Integer,primary_key=True)
     name= db.Column(db.String(100),unique=True,nullable=False)
-    students = db.relationship('Student', backref='Student', lazy=True)
+    students = db.relationship('Student', backref='Course', lazy=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
 
 

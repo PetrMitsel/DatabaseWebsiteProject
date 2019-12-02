@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField,BooleanField
+from wtforms import StringField, PasswordField, SubmitField,BooleanField, SelectField
 from wtforms.validators import InputRequired,EqualTo,Length,Email 
 
 class LoginForm(FlaskForm):
@@ -19,9 +19,9 @@ class RegistrationForm(FlaskForm):
 class AddStudentForm(FlaskForm):
     students_first_name = StringField('First Name', validators=[InputRequired()])
     students_last_name =StringField('Last Name', validators=[InputRequired()])
-    student_class= StringField('Class',validators=[InputRequired()])
-    submit= SubmitField('Add Student')
+    student_class= SelectField('Student Class',choices=[])
+    submitstudent= SubmitField('Add Student')
 
 class AddClassForm(FlaskForm):
     class_name = StringField('Course Name', validators=[InputRequired()])
-    submit= SubmitField('Add Class')
+    submitclass= SubmitField('Add Class')
