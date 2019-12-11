@@ -9,34 +9,34 @@
       <th scope="col">#</th>
       <th scope="col">Last Name</th>
       <th scope="col">First Name</th>
-      <th scope="col">Grade1</th>
-      <th scope="col">Grade2</th>
-      <th scope="col">Grade3</th>
+      <th scope="col">Homework</th>
+      <th scope="col">Midterm</th>
+      <th scope="col">Final</th>
       <th scope="col">Average</th>
     </tr>
   </thead>
   <tbody>
 
+    {% for student in course.students %}
     <tr>
       <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>100</td>
-      <td>97</td>
-      <td>97</td>
-      <td>Average Here</td>
+      <td>{{ student.last_name}}</td>
+      <td>{{ student.first_name}}</td>
+      <td>{{ student.homework}}</td>
+      <td>{{ student.midterm}}</td>
+      <td>{{ student.final}}</td>
+      <td>{{ student.average}}</td>
     </tr>
-
+    {% endfor %}
   </tbody>
 
 </table>
 {% endfor %}
 
+
+
 <button type="button" class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#exampleModal"
   data-whatever="@mdo">Add a Student</button>
-
-
-
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -48,8 +48,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="{{ url_for ('myclasses') }}">
+        <form method="POST" action="{{ url_for ('addstudent') }}">
           {{ addstudentform.hidden_tag() }}
+          {{ addstudentform.csrf_token }}
           <div class="form-group">
             {{ addstudentform.students_first_name.label (class= "form-control-label") }}
             {{ addstudentform.students_first_name(class= "form-control form-control-lg")}}
@@ -61,15 +62,21 @@
 
           <div class="form-group">
             {{ addstudentform.student_class.label (class= "form-control-label") }}
-            <!---
-            <select class="form-control">
-              {% for course in courses %}
-              <option>{{course.name}}</option>
-              {% endfor %}
-            </select>
-          -->
             {{ addstudentform.student_class(class= "form-control form-control-lg")}}
           </div>
+          <div class="form-group">
+            {{ addstudentform.homework.label (class= "form-control-label") }}
+            {{ addstudentform.homework (class= "form-control form-control-lg")}}
+          </div>
+          <div class="form-group">
+            {{ addstudentform.midterm.label (class= "form-control-label") }}
+            {{ addstudentform.midterm (class= "form-control form-control-lg")}}
+          </div>
+          <div class="form-group">
+            {{ addstudentform.final.label (class= "form-control-label") }}
+            {{ addstudentform.final (class= "form-control form-control-lg")}}
+          </div>
+
           <div>
             {{ addstudentform.submitstudent (class= "btn btn-outline-info") }}
           </div>

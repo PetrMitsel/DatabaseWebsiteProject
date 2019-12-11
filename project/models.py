@@ -25,6 +25,8 @@ class Course(db.Model):
     students = db.relationship('Student', backref='Course', lazy=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
 
+    def __repr__(self):
+        return self.name
 
 class Student(db.Model):
     first_name = db.Column(db.String(100),nullable=True)
