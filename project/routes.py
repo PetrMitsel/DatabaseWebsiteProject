@@ -81,7 +81,7 @@ def addstudent():
         print(student.first_name, file=sys.stderr)
         db.session.add(student)
         db.session.commit()
-        return redirect(url_for('addstudent'))
+        return redirect(url_for('myclasses'))
 
     return render_template('addstudent.html',addclassform=addclassform,addstudentform=addstudentform,courses=courses)
 

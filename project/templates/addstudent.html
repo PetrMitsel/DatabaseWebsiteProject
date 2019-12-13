@@ -47,7 +47,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ url_for ('addstudent') }}">
+                <form method="POST" action="{{ url_for ('addstudent') }}" id="addstudentform">
                     {{ addstudentform.hidden_tag() }}
                     {{ addstudentform.csrf_token }}
                     <div class="form-group">
@@ -55,23 +55,23 @@
                         {% if addstudentform.students_first_name.errors %}
                         {{ addstudentform.students_first_name(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addstudentform.students_first_name.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addstudentform.students_first_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addstudentform.students_first_name(class= "form-control form-control-lg")}}
                         {% endif %}
                     </div>
-                    
+
                     <div class="form-group">
                         {{ addstudentform.students_last_name.label (class= "form-control-label") }}
                         {% if addstudentform.students_last_name.errors %}
                         {{ addstudentform.students_last_name(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addstudentform.students_last_name.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addstudentform.students_last_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addstudentform.students_last_name(class= "form-control form-control-lg")}}
@@ -83,9 +83,9 @@
                         {% if addstudentform.student_class.errors %}
                         {{ addstudentform.student_class(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addstudentform.student_class.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addstudentform.student_class.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addstudentform.student_class(class= "form-control form-control-lg")}}
@@ -97,9 +97,9 @@
                         {% if addstudentform.homework.errors %}
                         {{ addstudentform.homework(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addstudentform.homework.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addstudentform.homework.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addstudentform.homework(class= "form-control form-control-lg")}}
@@ -111,9 +111,9 @@
                         {% if addstudentform.midterm.errors %}
                         {{ addstudentform.midterm(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addstudentform.midterm.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addstudentform.midterm.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addstudentform.midterm(class= "form-control form-control-lg")}}
@@ -125,15 +125,14 @@
                         {% if addstudentform.final.errors %}
                         {{ addstudentform.final(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addstudentform.final.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addstudentform.final.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addstudentform.final(class= "form-control form-control-lg")}}
                         {% endif %}
                     </div>
-
                     <div>
                         {{ addstudentform.submitstudent (class= "btn btn-outline-info") }}
                     </div>
@@ -166,9 +165,9 @@
                         {% if addclassform.class_name.errors %}
                         {{ addclassform.class_name(class= "form-control form-control-lg is-invalid")}}
                         <div class="invalid-feedback">
-                          {% for error in addclassform.class_name.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
+                            {% for error in addclassform.class_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                         {% else %}
                         {{ addclassform.class_name(class= "form-control form-control-lg")}}
@@ -183,3 +182,9 @@
     </div>
 </div>
 {%endblock content%}
+
+<script>
+    $("addstudentform").submit(function (event) {
+        event.preventDefault();
+    });
+</script>
