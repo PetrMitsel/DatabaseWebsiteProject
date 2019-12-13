@@ -52,28 +52,86 @@
                     {{ addstudentform.csrf_token }}
                     <div class="form-group">
                         {{ addstudentform.students_first_name.label (class= "form-control-label") }}
+                        {% if addstudentform.students_first_name.errors %}
+                        {{ addstudentform.students_first_name(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addstudentform.students_first_name.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
                         {{ addstudentform.students_first_name(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
+                    
                     <div class="form-group">
                         {{ addstudentform.students_last_name.label (class= "form-control-label") }}
+                        {% if addstudentform.students_last_name.errors %}
+                        {{ addstudentform.students_last_name(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addstudentform.students_last_name.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
                         {{ addstudentform.students_last_name(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
 
                     <div class="form-group">
                         {{ addstudentform.student_class.label (class= "form-control-label") }}
-                        {{ addstudentform.student_class (class= "form-control form-control-lg")}}
+                        {% if addstudentform.student_class.errors %}
+                        {{ addstudentform.student_class(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addstudentform.student_class.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ addstudentform.student_class(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
+
                     <div class="form-group">
                         {{ addstudentform.homework.label (class= "form-control-label") }}
-                        {{ addstudentform.homework (class= "form-control form-control-lg")}}
+                        {% if addstudentform.homework.errors %}
+                        {{ addstudentform.homework(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addstudentform.homework.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ addstudentform.homework(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
+
                     <div class="form-group">
                         {{ addstudentform.midterm.label (class= "form-control-label") }}
-                        {{ addstudentform.midterm (class= "form-control form-control-lg")}}
+                        {% if addstudentform.midterm.errors %}
+                        {{ addstudentform.midterm(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addstudentform.midterm.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ addstudentform.midterm(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
+
                     <div class="form-group">
                         {{ addstudentform.final.label (class= "form-control-label") }}
-                        {{ addstudentform.final (class= "form-control form-control-lg")}}
+                        {% if addstudentform.final.errors %}
+                        {{ addstudentform.final(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addstudentform.final.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ addstudentform.final(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
 
                     <div>
@@ -105,7 +163,16 @@
                     {{ addclassform.hidden_tag() }}
                     <div class="form-group">
                         {{ addclassform.class_name.label (class= "form-control-label") }}
+                        {% if addclassform.class_name.errors %}
+                        {{ addclassform.class_name(class= "form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                          {% for error in addclassform.class_name.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                        {% else %}
                         {{ addclassform.class_name(class= "form-control form-control-lg")}}
+                        {% endif %}
                     </div>
                     <div>
                         {{ addclassform.submitclass (class= "btn btn-outline-info") }}
