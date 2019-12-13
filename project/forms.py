@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField,BooleanField, SelectField, IntegerField
-from wtforms.validators import InputRequired,EqualTo,Length,Email 
+from wtforms.validators import InputRequired,EqualTo,Length,Email,NumberRange
 from project.models import Course
 from wtforms_sqlalchemy.fields import QuerySelectField
 from flask_login import current_user
@@ -29,9 +29,9 @@ class AddStudentForm(FlaskForm):
     students_first_name = StringField('First Name', validators=[InputRequired()])
     students_last_name =StringField('Last Name', validators=[InputRequired()])
     student_class= QuerySelectField(query_factory=coursequery,get_pk=get_pk)
-    homework = IntegerField('Homework Grade')
-    midterm = IntegerField('Midterm Grade')
-    final = IntegerField('Final Grade')
+    homework = IntegerField('Homework Grade',validators=[NumberRange(0,100)])
+    midterm = IntegerField('Midterm Grade',validators=[NumberRange(0,100)])
+    final = IntegerField('Final Grade',validators=[NumberRange(0,100)])
     submitstudent= SubmitField('Add Student')
 
 class AddClassForm(FlaskForm):
