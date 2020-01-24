@@ -7,6 +7,3 @@
 ### Run 
 - Python run.py
 
-### Deployed Instance 
-
-- 
