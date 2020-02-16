@@ -1,4 +1,12 @@
 {
     "python.pythonPath": "env\\Scripts\\python.exe",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "sqltools.connections": [
+        {
+            "database": "${workspaceFolder}\\project/students.sqlite3",
+            "dialect": "SQLite",
+            "name": "Students"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }

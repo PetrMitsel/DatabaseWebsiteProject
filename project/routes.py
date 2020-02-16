@@ -1,8 +1,15 @@
 from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from project.models import User, Course, Student
+from project.models import User, Course, Student, Grade, Assignment
 from project import db, app, bcrypt
-from project.forms import RegistrationForm, AddClassForm, AddStudentForm, LoginForm
+from project.forms import (
+    RegistrationForm,
+    AddClassForm,
+    AddStudentForm,
+    LoginForm,
+    AddAssignmentForm,
+    AddGradesForm,
+)
 from flask_login import (
     login_user,
     current_user,
@@ -77,63 +84,71 @@ def profile():
 @login_required
 def course_detail(course_id):
     course = Course.query.filter_by(id=course_id).first()
-    return render_template("course_detail.html", user=current_user, course=course)
+    addstudentform = AddStudentForm()
+
+    addassignment_form = AddAssignmentForm()
+
+    addgrades_form = AddGradesForm()
+    addgrades_form.course_id = course_id
+    addgrades_form.student.query = Student.query.filter_by(course_id=course_id)
+    addgrades_form.assignment.query = Assignment.query.filter_by(course_id=course_id)
+
+    if addstudentform.validate_on_submit():
+
+        student = Student(
+            first_name=addstudentform.students_first_name.data,
+            last_name=addstudentform.students_last_name.data,
+            Course=course,
+        )
+        db.session.add(student)
+        db.session.commit()
+    elif addgrades_form.validate_on_submit():
+
+        grade = Grade(
+            value=addgrades_form.value.data,
+            student_id=addgrades_form.student.data.id,
+            assignment_id=addgrades_form.assignment.data.id,
+        )
+        db.session.add(grade)
+        db.session.commit()
+    elif addassignment_form.validate_on_submit():
+        assignment = Assignment(
+            assignment_name=addassignment_form.assignment_name.data,
+            description=addassignment_form.assignment_description.data,
+            course_id=course_id,
+            weight=addassignment_form.weight.data,
+        )
+        db.session.add(assignment)
+        db.session.commit()
+
+    return render_template(
+        "course_detail.html",
+        user=current_user,
+        course=course,
+        addstudentform=addstudentform,
+        addgrades_form=addgrades_form,
+        addassignment_form=addassignment_form,
+    )
 
 
 @app.route("/myclasses", methods=["GET", "POST"])
 @login_required
 def myclasses():
     courses = getcourses()
-    addstudentform = AddStudentForm()
     addclassform = AddClassForm()
 
     if addclassform.submitclass.data and addclassform.validate_on_submit():
         addclasses(addclassform.class_name.data, current_user)
-        return redirect(url_for("myclasses"))
+        # return redirect(url_for("myclasses"))
 
     return render_template(
-        "myclasses.html",
-        addclassform=addclassform,
-        addstudentform=addstudentform,
-        courses=courses,
+        "myclasses.html", addclassform=addclassform, courses=courses,
     )
 
 
-@app.route("/addstudent", methods=["GET", "POST"])
-@login_required
-def addstudent():
-
-    courses = getcourses()
-    addstudentform = AddStudentForm()
-    addclassform = AddClassForm()
-    print(bool(addstudentform.validate_on_submit()), file=sys.stderr)
-
-    if addstudentform.validate_on_submit():
-        grades = [
-            addstudentform.homework.data,
-            addstudentform.midterm.data,
-            addstudentform.final.data,
-        ]
-        student = Student(
-            first_name=addstudentform.students_first_name.data,
-            last_name=addstudentform.students_last_name.data,
-            Course=addstudentform.student_class.data,
-            homework=addstudentform.homework.data,
-            midterm=addstudentform.midterm.data,
-            final=addstudentform.final.data,
-            average=statistics.mean(grades),
-        )
-        print(student.first_name, file=sys.stderr)
-        db.session.add(student)
-        db.session.commit()
-        return redirect(url_for("myclasses"))
-
-    return render_template(
-        "addstudent.html",
-        addclassform=addclassform,
-        addstudentform=addstudentform,
-        courses=courses,
-    )
+# factor out table into course_detail
+# add grade,assignment and student are limited to course detail.
+# My classes should be redundant over profile, or have limited info
 
 
 def addclasses(s, user):
@@ -146,18 +161,6 @@ def addclasses(s, user):
 def getcourses():
     courses = Course.query.filter_by(Teacher=current_user).all()
     return courses
-
-
-def makechoices(courses):
-    coursenames = []
-    students = []
-    for course in courses:
-        coursenames.append(course.name)
-        students.append(course.students)
-    # print(students, file=sys.stderr)
-    choices = zip(courses, coursenames)
-    choices = set(choices)
-    return choices
 
 
 if __name__ == "__main__":

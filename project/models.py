@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
 
 class Course(db.Model):
     id = db.Column("course_id", db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     students = db.relationship("Student", backref="Course", lazy=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     assignments = db.relationship("Assignment", backref="Course", lazy=True)
@@ -39,32 +39,31 @@ class Student(db.Model):
     id = db.Column("student_id", db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"), nullable=False)
     grades = db.relationship("Grade", backref="Student", lazy=True)
-    homework = db.Column(db.Integer, nullable=True)
-    midterm = db.Column(db.Integer, nullable=True)
-    final = db.Column(db.Integer, nullable=True)
-    average = db.Column(db.Integer, nullable=True)
+
+    def __repr__(self):
+        return f"{self.first_name},{self.last_name}"
 
 
 class Grade(db.Model):
 
     id = db.Column("grade_id", db.Integer, primary_key=True)
+    value = db.Column(db.Integer, nullable=False)
     student_id = db.Column(
         db.Integer, db.ForeignKey("student.student_id"), nullable=False
     )
     assignment_id = db.Column(
-        db.Integer, db.ForeignKey("student.student_id"), nullable=False
+        db.Integer, db.ForeignKey("assignment.assignment_id"), nullable=False
     )
-    __table_args__ = (
-        db.UniqueConstraint("student_id", "assignment_id"),
-    )
-    value = db.Column(db.Integer, nullable=False)
 
 
 class Assignment(db.Model):
-
+    __tablename__ = "assignment"
     id = db.Column("assignment_id", db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     assignment_name = db.Column(db.String(100), nullable=True)
-    grades = db.relationship("Grade", backref="Assignment", lazy=True)
+    # grades = db.relationship("Grade", backref="Assignment", lazy=True)
+    description = db.Column(db.Text, nullable=True)
 
+    def __repr__(self):
+        return f"{self.assignment_name}"
