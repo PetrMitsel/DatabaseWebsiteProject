@@ -3,8 +3,8 @@
 * Make sure you have pipenv and python 3.7 installed.
 * Clone repo
 * Install requirements with :
-        +`pipenv shell`
-        +`pipenv install`
+        `pipenv shell`
+        `pipenv install`
 
 ### Run 
 * Python run.py
