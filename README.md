@@ -1,9 +1,10 @@
 ### Installation
 
-- Make sure you have pip and python 3.7 installed.
+- Make sure you have pipenv and python 3.7 installed.
 - Clone repo
-- Install requirements with : pip install -r requirements.txt
-
+- Install requirements with :
+        pipenv shell
+        pipenv install
 ### Run 
 - Python run.py
 
