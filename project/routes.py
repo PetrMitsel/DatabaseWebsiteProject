@@ -1,7 +1,9 @@
 from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_table import Col, Table
 from project.models import User, Course, Student, Grade, Assignment
 from project import db, app, bcrypt
+from project.tables import CourseTable
 from project.forms import (
     RegistrationForm,
     AddClassForm,
@@ -80,6 +82,11 @@ def profile():
     return render_template("profile.html", user=current_user, courses=getcourses())
 
 
+"""
+course detail
+"""
+
+
 @app.route("/course/<course_id>", methods=["GET", "POST"])
 @login_required
 def course_detail(course_id):
@@ -93,16 +100,26 @@ def course_detail(course_id):
     addgrades_form.student.query = Student.query.filter_by(course_id=course_id)
     addgrades_form.assignment.query = Assignment.query.filter_by(course_id=course_id)
 
-    if addstudentform.validate_on_submit():
+    students = Student.query.filter_by(course_id=course_id).all()
+    assignments = Assignment.query.filter_by(course_id=course_id)
+    course_table = CourseTable(students)
+
+    # for assignment in assignments:
+    #     for i in range(len(students) - 1):
+    #         student = students[i]
+    #         assignment_name = assignment.assignment_name
+    #         course_table.add_column(student.grades[i], Col(assignment_name))
+
+    if addstudentform.submitstudent.data and addstudentform.validate_on_submit():
 
         student = Student(
             first_name=addstudentform.students_first_name.data,
             last_name=addstudentform.students_last_name.data,
-            Course=course,
+            course_id=course_id,
         )
         db.session.add(student)
         db.session.commit()
-    elif addgrades_form.validate_on_submit():
+    if addgrades_form.submit_grade.data and addgrades_form.validate_on_submit():
 
         grade = Grade(
             value=addgrades_form.value.data,
@@ -111,7 +128,10 @@ def course_detail(course_id):
         )
         db.session.add(grade)
         db.session.commit()
-    elif addassignment_form.validate_on_submit():
+    if (
+        addassignment_form.submit_assignment.data
+        and addassignment_form.validate_on_submit()
+    ):
         assignment = Assignment(
             assignment_name=addassignment_form.assignment_name.data,
             description=addassignment_form.assignment_description.data,
@@ -128,6 +148,7 @@ def course_detail(course_id):
         addstudentform=addstudentform,
         addgrades_form=addgrades_form,
         addassignment_form=addassignment_form,
+        table=course_table,
     )
 
 

@@ -58,7 +58,7 @@ class AddStudentForm(FlaskForm):
     students_last_name = StringField(
         "Last Name", validators=[InputRequired(), validate_name]
     )
-    student_class = QuerySelectField(query_factory=coursequery, get_pk=get_pk)
+    # student_class = QuerySelectField(query_factory=coursequery, get_pk=get_pk)
     submitstudent = SubmitField("Add Student")
 
 

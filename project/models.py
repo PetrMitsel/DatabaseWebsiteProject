@@ -55,6 +55,9 @@ class Grade(db.Model):
         db.Integer, db.ForeignKey("assignment.assignment_id"), nullable=False
     )
 
+    def __repr__(self):
+        return f"{self.Assignment.assignment_name},{self.value}"
+
 
 class Assignment(db.Model):
     __tablename__ = "assignment"
@@ -62,7 +65,7 @@ class Assignment(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     assignment_name = db.Column(db.String(100), nullable=True)
-    # grades = db.relationship("Grade", backref="Assignment", lazy=True)
+    grades = db.relationship("Grade", backref="Assignment", lazy=True)
     description = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
