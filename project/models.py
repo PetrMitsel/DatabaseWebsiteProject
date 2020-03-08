@@ -56,7 +56,7 @@ class Grade(db.Model):
     )
 
     def __repr__(self):
-        return f"{self.Assignment.assignment_name},{self.value}"
+        return f"{self.value}"
 
 
 class Assignment(db.Model):

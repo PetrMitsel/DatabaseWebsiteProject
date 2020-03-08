@@ -1,12 +1,69 @@
-{%extends "index.html"%}
+{%extends "index.html"%} {%block content%}
 
-{%block content%}
+<div class="container">
+    <div class="row">
+        <h2>Your courses:</h2>
+    </div>
+    <div class="row">
+        {% for course in courses %}
+        <div class="col md-3 mb-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text">
+                        <div>{{course.students|length}} students.</div>
+                        <div>{{course.assignments|length}} assignments.</div>
+                    </p>
+                    <a href="/course/{{course['id']}}" class="btn btn-dark">View Course</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-dark" id="modalButton" data-toggle="modal" data-target="#classModal"
+                data-whatever="@zzz">
+                <i class="fas fa-plus-square"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
-
-<img id="blurb" src="static/blurb.jpg">
-<img id="text" src="static/text.png">
-
-    
-
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for ('home') }}">
+                    {{ addclassform.hidden_tag() }}
+                    <div class="form-group">
+                        {{ addclassform.class_name.label (class= "form-control-label") }} {%
+            if addclassform.class_name.errors %} {{
+            addclassform.class_name(class= "form-control form-control-lg
+            is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in addclassform.class_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ addclassform.class_name(class= "form-control form-control-lg")}}
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ addclassform.submitclass (class= "btn btn-outline-info") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {%endblock content%}

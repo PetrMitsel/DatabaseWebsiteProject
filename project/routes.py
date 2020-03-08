@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_table import Col, Table
+
+# from flask_appbuilder import
 from project.models import User, Course, Student, Grade, Assignment
 from project import db, app, bcrypt
 from project.tables import CourseTable
@@ -22,12 +24,24 @@ from flask_login import (
 import os
 import sys
 import statistics
+import pdb
 
 
 @app.route("/")
-@app.route("/home")
+@app.route("/home", methods=["GET", "POST"])
 def home():
-    return render_template("home.html")
+
+    if current_user.is_authenticated:
+        courses = getcourses()
+        addclassform = AddClassForm()
+    else:
+        return redirect(url_for("login"))
+
+    if addclassform.submitclass.data and addclassform.validate_on_submit():
+        addclasses(addclassform.class_name.data, current_user)
+        return redirect(url_for("home"))
+
+    return render_template("home.html", addclassform=addclassform, courses=courses,)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -119,6 +133,7 @@ def course_detail(course_id):
         )
         db.session.add(student)
         db.session.commit()
+
     if addgrades_form.submit_grade.data and addgrades_form.validate_on_submit():
 
         grade = Grade(
@@ -152,6 +167,29 @@ def course_detail(course_id):
     )
 
 
+"""
+TODO: move add grade  to student detail from course detail,
+add grade form should filter for assignment, instead of student and assignment.
+"""
+
+
+@app.route("/student/<student_id>", methods=["GET", "POST"])
+@login_required
+def student_detail(student_id):
+    student = Student.query.filter_by(id=student_id).first()
+    assignments = []
+    sum = 0
+    for grade in student.grades:
+        assignments.append(grade.Assignment)
+        sum += grade.value
+        # * (grade.Assignment.weight / 100)
+    average = sum // len(student.grades)
+    grades = list(zip(assignments, student.grades))
+    return render_template(
+        "student_detail.html", student=student, grades=grades, average=average
+    )
+
+
 @app.route("/myclasses", methods=["GET", "POST"])
 @login_required
 def myclasses():
@@ -160,7 +198,7 @@ def myclasses():
 
     if addclassform.submitclass.data and addclassform.validate_on_submit():
         addclasses(addclassform.class_name.data, current_user)
-        # return redirect(url_for("myclasses"))
+        return redirect(url_for("myclasses"))
 
     return render_template(
         "myclasses.html", addclassform=addclassform, courses=courses,
