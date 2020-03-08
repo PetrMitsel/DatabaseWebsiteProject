@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
 
 class Course(db.Model):
     id = db.Column("course_id", db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False, unique=False)
     students = db.relationship("Student", backref="Course", lazy=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     assignments = db.relationship("Assignment", backref="Course", lazy=True)
