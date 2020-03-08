@@ -15,6 +15,7 @@ flask-wtf = "*"
 flask-appbuilder = "*"
 flask-table = "*"
 wtforms-sqlalchemy = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"

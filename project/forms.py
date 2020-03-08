@@ -69,6 +69,7 @@ class AddClassForm(FlaskForm):
 
 class AddGradesForm(FlaskForm):
     course_id = 0
+    student_id = 0
     value = IntegerField("Grade", validators=[InputRequired(), NumberRange(0, 100)])
     student = QuerySelectField(get_pk=get_pk)
     assignment = QuerySelectField(get_pk=get_pk)
