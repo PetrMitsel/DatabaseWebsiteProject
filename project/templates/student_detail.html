@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div>
-            <h1>{{student.first_name}}</h1>
+            <h1>{{student.first_name | capitalize }} {{student.last_name | capitalize}}</h1>
         </div>
     </div>
     <div class="row">
@@ -26,6 +26,7 @@
                         </td>
                     </tr>
                     {% endfor %}
+                    {% if average %}
                     <tr>
                         <td>
                             Average:
@@ -34,9 +35,12 @@
                             {{average}}
                         </td>
                     </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="row">
     </div>
 </div>
 <script>

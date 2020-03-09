@@ -133,7 +133,7 @@ def course_detail(course_id):
         )
         db.session.add(student)
         db.session.commit()
-
+        return redirect(url_for("course_detail", course_id=course_id))
     if addgrades_form.submit_grade.data and addgrades_form.validate_on_submit():
 
         grade = Grade(
@@ -143,6 +143,7 @@ def course_detail(course_id):
         )
         db.session.add(grade)
         db.session.commit()
+        return redirect(url_for("course_detail", course_id=course_id))
     if (
         addassignment_form.submit_assignment.data
         and addassignment_form.validate_on_submit()
@@ -155,7 +156,7 @@ def course_detail(course_id):
         )
         db.session.add(assignment)
         db.session.commit()
-
+        return redirect(url_for("course_detail", course_id=course_id))
     return render_template(
         "course_detail.html",
         user=current_user,
@@ -178,15 +179,21 @@ add grade form should filter for assignment, instead of student and assignment.
 def student_detail(student_id):
     student = Student.query.filter_by(id=student_id).first()
     assignments = []
+    average = None
     sum = 0
     for grade in student.grades:
         assignments.append(grade.Assignment)
         sum += grade.value
         # * (grade.Assignment.weight / 100)
-    average = sum // len(student.grades)
+    if len(student.grades) > 0:
+        average = sum // len(student.grades)
     grades = list(zip(assignments, student.grades))
-    return render_template(
-        "student_detail.html", student=student, grades=grades, average=average
+    return (
+        render_template(
+            "student_detail.html", student=student, grades=grades, average=average
+        )
+        if average
+        else render_template("student_detail.html", student=student, grades=grades)
     )
 
 
