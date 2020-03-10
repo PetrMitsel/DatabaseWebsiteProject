@@ -78,7 +78,6 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         flash("Account succesfully created.", "success")
-        print("Hello world!", file=sys.stderr)
         return redirect(url_for("login"))
     return render_template("register.html", form=form)
 

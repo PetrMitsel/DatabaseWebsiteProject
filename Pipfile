@@ -18,6 +18,7 @@ wtforms-sqlalchemy = "*"
 gunicorn = "*"
 psycopg2 = "*"
 flask-migrate = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"
