@@ -10,4 +10,4 @@
 * Python run.py
 
 ### Deployed@:
-https://teachercloud.herokuapp.com/course/1
+https://teachercloud.herokuapp.com/
