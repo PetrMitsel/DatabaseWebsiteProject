@@ -19,7 +19,7 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
-SECRET_KEY = os.urandom(32)
-app.config["SECRET_KEY"] = SECRET_KEY
+
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY')
 
 from project import routes
